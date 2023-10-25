@@ -1,0 +1,18 @@
+import Adafruit_DHT
+import time
+import RPi.GPIO as GPIO
+from time import sleep
+GPIO.setwarning(False);
+GPIO.smode(GPIO.BCM)
+GPIO.setup(3,GPIO.OUT , initial = GPIO.LOW)
+DHT_SENSOR = Adafruit_DHT.DHT11
+DHT_PIN = 4
+
+while True:
+    hum , temp = Adafruit_DHT.read(DHT_SENSOR , DHT_PIN);
+    if(hum is not None and temp is not None):
+        print("Humidity: ",hum , "temp: " ,temp)
+        GPIO.output(3,GPIO.HIGH)
+    else:
+        print("Error")
+        GPIO.output(3,GPPIO.LOW)

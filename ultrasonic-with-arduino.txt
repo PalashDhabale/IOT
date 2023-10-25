@@ -1,0 +1,51 @@
+// Pin configuration for the ultrasonic sensor
+const int trigPin = 2;   // Trigger pin
+const int echoPin = 3;   // Echo pin
+
+// Pin configuration for the LEDs
+const int greenLedPin = 4;
+const int redLedPin = 5;
+
+void setup() {
+  Serial.println("Stared")
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(redLedPin, OUTPUT);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Trigger the ultrasonic sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Read the distance from the ultrasonic sensor
+  long duration = pulseIn(echoPin, HIGH);
+
+  distance = duration * 0.034/2;
+  // Print the distance to the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Check if an obstacle is within the desired range (1 meter)
+  if (distance <= 20) {
+    digitalWrite(greenLedPin, LOW);  // Green LED off
+    delay(50);
+    digitalWrite(redLedPin, HIGH);    // Red LED on
+     delay(50);
+  } 
+  else {
+    digitalWrite(greenLedPin, HIGH);  // Green LED on
+     delay(50);
+    digitalWrite(redLedPin, LOW);     // Red LED off
+     delay(50);
+  }
+
+  delay(1000);  // Adjust the delay as needed to control the update rate
+}

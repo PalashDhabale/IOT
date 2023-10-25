@@ -1,0 +1,72 @@
+// Pin configuration for the IR sensor
+//int irSensorPin = A0;
+int irSensorPin = 4
+
+// Pin configuration for the LEDs
+int greenLedPin = 2;
+int redLedPin = 3;
+
+void setup() {
+  pinMode(irSensorPin, INPUT);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(redLedPin, OUTPUT);
+
+  // Initialize the Serial Monitor
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read the analog value from the IR sensor
+  //int irSensorValue = analogRead(irSensorPin);
+  
+  // Convert the analog value to centimeters (adjust the formula as needed for your specific sensor)
+  //float distanceInCentimeters = 9462.16 / (irSensorValue - 16.92);
+
+  // Print the distance value to the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distanceInCentimeters);
+  Serial.println(" cm");
+
+  // Check if an obstacle is within the desired range (1 meter)
+  if (distanceInCentimeters < 100) {
+    digitalWrite(greenLedPin, LOW);  // Green LED off
+    digitalWrite(redLedPin, HIGH);    // Red LED on
+  } else {
+    digitalWrite(greenLedPin, HIGH);  // Green LED on
+    digitalWrite(redLedPin, LOW);     // Red LED off
+  }
+
+  delay(1000);  // Adjust the delay as needed to control the update rate
+}
+
+//-----------using only digital pins
+
+// Pin configuration for the IR sensor
+const int irSensorPin = 4; // Digital pin for the IR sensor
+
+// Pin configuration for the LEDs
+const int greenLedPin = 2;
+const int redLedPin = 3;
+
+void setup() {
+  pinMode(irSensorPin, INPUT);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(redLedPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read the digital value from the IR sensor
+  int irSensorValue = digitalRead(irSensorPin);
+
+  // Check if an obstacle is within the desired range (1 meter)
+  if (irSensorValue == LOW) {
+    digitalWrite(greenLedPin, LOW);  // Green LED off
+    digitalWrite(redLedPin, HIGH);    // Red LED on
+  } else {
+    digitalWrite(greenLedPin, HIGH);  // Green LED on
+    digitalWrite(redLedPin, LOW);     // Red LED off
+  }
+
+  delay(1000); // Adjust the delay as needed to control the update rate
+}

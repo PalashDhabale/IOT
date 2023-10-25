@@ -1,0 +1,36 @@
+import RPi.GPIO as GPIO
+import time
+
+# GPIO pins for the IR sensor and LEDs
+IR_SENSOR_PIN = 17  # Use the appropriate GPIO pin for your setup
+GREEN_LED_PIN = 18
+RED_LED_PIN = 23
+
+# Set up the GPIO mode and warnings
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+# Setup IR sensor GPIO
+GPIO.setup(IR_SENSOR_PIN, GPIO.IN)
+
+# Setup LED GPIO
+GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
+GPIO.setup(RED_LED_PIN, GPIO.OUT)
+
+try:
+    while True:
+        # Read the digital value from the IR sensor
+        ir_sensor_value = GPIO.input(IR_SENSOR_PIN)
+
+        # Check if an obstacle is within the desired range (1 meter)
+        if ir_sensor_value == 0:
+            GPIO.output(GREEN_LED_PIN, GPIO.LOW)  # Green LED off
+            GPIO.output(RED_LED_PIN, GPIO.HIGH)    # Red LED on
+        else:
+            GPIO.output(GREEN_LED_PIN, GPIO.HIGH)  # Green LED on
+            GPIO.output(RED_LED_PIN, GPIO.LOW)     # Red LED off
+
+        time.sleep(1)  # Adjust the delay time as needed
+
+except KeyboardInterrupt:
+    GPIO.cleanup()
